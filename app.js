@@ -1,19 +1,22 @@
-var minutesLabel = document.getElementById("minutes");
-var secondsLabel = document.getElementById("seconds");
-var totalSeconds = 0;
-setInterval(setTime, 1000);
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
 
-function setTime() {
-  ++totalSeconds;
-  secondsLabel.innerHTML = pad(totalSeconds % 60);
-  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
 }
 
-function pad(val) {
-  var valString = val + "";
-  if (valString.length < 2) {
-    return "0" + valString;
-  } else {
-    return valString;
-  }
-}
+window.onload = function () {
+    var fiveMinutes = 60 * 5,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
